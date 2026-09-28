@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b74de">
+<title>ITIL V5 Foundation — 78 Question Quiz</title>
+<style>
+:root {
+  --bg:#f4f7fb; --card:#fff; --text:#142033; --muted:#637083;
+  --primary:#0879e8; --primary2:#065fc1; --border:#dce4ee;
+  --good:#15803d; --goodbg:#ecfdf3; --bad:#b91c1c; --badbg:#fef2f2;
+}
+* {box-sizing:border-box}
+body {margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.45}
+header {position:sticky;top:0;z-index:10;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:12px max(14px,env(safe-area-inset-left))}
+.top {max-width:850px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:10px}
+h1 {font-size:17px;margin:0}
+.stat {font-size:13px;color:var(--muted);white-space:nowrap}
+main {max-width:850px;margin:0 auto;padding:18px 14px 100px}
+.progress {height:8px;background:#e7edf5;border-radius:99px;overflow:hidden;margin:10px 0 18px}
+.progress > div {height:100%;background:var(--primary);width:0%;transition:width .25s}
+.card {background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px;box-shadow:0 4px 18px rgba(20,32,51,.05)}
+.meta {font-size:12px;color:var(--muted);margin-bottom:8px}
+.question {font-size:20px;font-weight:700;line-height:1.35;margin:0 0 18px}
+.option {display:block;width:100%;text-align:left;border:1.5px solid var(--border);background:#fff;border-radius:13px;padding:14px 14px;margin:10px 0;font-size:16px;color:var(--text);cursor:pointer;transition:.15s}
+.option:hover {border-color:#8bb9e9;background:#f8fbff}
+.option:disabled {cursor:default}
+.option.correct {border-color:var(--good);background:var(--goodbg)}
+.option.wrong {border-color:var(--bad);background:var(--badbg)}
+.letter {font-weight:800;display:inline-block;width:26px}
+.feedback {margin-top:14px;padding:12px 14px;border-radius:12px;background:#f5f8fc;border:1px solid var(--border);font-size:14px}
+.feedback.good {background:var(--goodbg);border-color:#b7e5c6;color:#166534}
+.feedback.bad {background:var(--badbg);border-color:#fecaca;color:#991b1b}
+.controls {display:flex;gap:10px;margin-top:18px}
+button.control {flex:1;border:0;border-radius:12px;padding:13px 14px;font-size:15px;font-weight:700;background:#e9eff7;color:var(--text);cursor:pointer}
+button.primary {background:var(--primary);color:#fff}
+button.primary:disabled, button.control:disabled {opacity:.45;cursor:not-allowed}
+.tools {display:flex;gap:8px;margin:12px 0;flex-wrap:wrap}
+.tool {border:1px solid var(--border);background:#fff;border-radius:10px;padding:8px 10px;font-size:13px;cursor:pointer}
+.summary {text-align:center;padding:25px 10px}
+.score {font-size:48px;font-weight:800;color:var(--primary);margin:8px 0}
+.small {font-size:14px;color:var(--muted)}
+.navgrid {display:grid;grid-template-columns:repeat(10,1fr);gap:6px;margin-top:14px}
+.navgrid button {padding:8px 0;border:1px solid var(--border);background:#fff;border-radius:8px;font-size:12px;cursor:pointer}
+.navgrid button.done {background:#eef8f1;border-color:#a7d9b4;color:#166534}
+.navgrid button.current {outline:2px solid var(--primary)}
+@media(max-width:520px){
+  main{padding:12px 10px 90px}
+  .card{padding:15px;border-radius:15px}
+  .question{font-size:18px}
+  .option{font-size:15px;padding:13px}
+  .navgrid{grid-template-columns:repeat(8,1fr)}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="top">
+    <h1>ITIL V5 Foundation Quiz</h1>
+    <div class="stat" id="counter">Question 1 of 78</div>
+  </div>
+</header>
+<main>
+  <div class="progress"><div id="progress"></div></div>
+  <div class="tools">
+    <button class="tool" id="shuffleBtn">Shuffle questions</button>
+    <button class="tool" id="restartBtn">Restart</button>
+    <button class="tool" id="navBtn">Question navigator</button>
+  </div>
+  <div id="navigator" class="navgrid" style="display:none"></div>
+  <section id="quiz"></section>
+</main>
+
+<script>
+const QUESTIONS = [{"q": "Which element of the operating model refers to third parties contributing to value creation activities?", "o": ["Partners and suppliers", "Value streams and processes", "Value chain", "Organizations and people"], "a": 0, "id": 1, "page": 1}, {"q": "Which of the following describes a sponsor within a consumer organization?", "o": ["A person or group that has its own functions and authorities", "A person or group that authorizes a change", "The role that defines the requirements for a service", "The role that authorizes the budget for service consumption"], "a": 3, "id": 2, "page": 1}, {"q": "What does sustainability assure in the context of a service or product?", "o": ["The service will meet the agreed requirements", "The service will continually meet requirements for environmental responsibility", "The service delivers the required functionality to meet business needs", "The service supports the performance of the consumer"], "a": 1, "id": 3, "page": 1}, {"q": "How do service providers contribute to the creation of service value for consumers?", "o": ["They reduce risks and provide resources through specialization", "They eliminate the need for consumers to use any resources", "They replace consumers' responsibilities with their own services", "They determine the financial outcomes for consumers directly"], "a": 0, "id": 4, "page": 1}, {"q": "Which is the main form of service interaction between service consumers and digital services?", "o": ["Transfer of goods", "Delivery of goods", "Access to resources", "Service actions"], "a": 2, "id": 5, "page": 1}, {"q": "Which statement BEST describes service quality?", "o": ["The totality of characteristics of a service that determine its ability to satisfy stated needs", "The functionality provided by a product or service to meet a particular need", "A documented agreement between a service provider and a customer", "The assurance that a service will meet agreed requirements and is fit for use"], "a": 0, "id": 6, "page": 1}, {"q": "What enables the digital product and service management activities of an organization?", "o": ["Value stream steps", "Management practices", "Vision and operating model", "Value chain"], "a": 1, "id": 7, "page": 1}, {"q": "Which of the following BEST describes an operating model?", "o": ["A set of rules that ensures consistent decision-making and accountability within the organization", "A recommendation that guides an organization's actions and decisions in all circumstances", "A set of organizational resources designed for performing specific work or achieving a particular objective", "A conceptual and visual representation of how an organization co-creates value with its customers"], "a": 3, "id": 8, "page": 1}, {"q": "Why do many digital service providers aim to reduce or eliminate service actions?", "o": ["To strengthen direct personal engagement between users and support staff", "To ensure every service interaction is handled manually for better control", "To comply with financial and regulatory policies", "To streamline operations and increase consistency by relying more on automation"], "a": 3, "id": 9, "page": 1}, {"q": "Which chapter of a practice guide provides recommendations for the successful automation of the practice?", "o": ["Information and technology", "Partners and suppliers", "Organizations and people", "Value streams and processes"], "a": 0, "id": 10, "page": 1}, {"q": "A team is gathering customer feedback and measuring current service response times to understand its existing performance. Which step of the continual improvement model does this activity represent?", "o": ["Where are we now?", "Take action", "Where do we want to be?", "What is the vision?"], "a": 0, "id": 11, "page": 1}, {"q": "Which guiding principle emphasizes understanding how all parts of an organization function together as an integrated system?", "o": ["Think and work holistically", "Focus on value", "Keep it simple and practical", "Progress iteratively with feedback"], "a": 0, "id": 12, "page": 1}, {"q": "Which of the following statements about the four dimensions of product and service management is CORRECT?", "o": ["Each dimension on its own is sufficient to achieve the desired outcomes", "All four dimensions are critical to effective and efficient facilitation of value", "All four dimensions apply only to product design and not to management practices", "All four dimensions focus mainly on the activities of the service value chain"], "a": 1, "id": 13, "page": 2}, {"q": "Which of the following BEST describes a release?", "o": ["The addition, modification, or removal of anything that could affect services", "A version of a product, service, or other configuration item made available for use", "An unplanned interruption to a service or reduction in the quality of a service", "A cause, or potential cause, of one or more incidents"], "a": 1, "id": 14, "page": 2}, {"q": "What is the role of governance within the ITIL Service Value System?", "o": ["To define and manage process activities for service delivery", "To perform day-to-day service operations", "To ensure organizational activities are directed and controlled", "To provide detailed technical guidance for service design"], "a": 2, "id": 15, "page": 2}, {"q": "Which of the following statements about value streams is INCORRECT?", "o": ["Value streams are enabled and supported by the organization's value chain", "Value streams should exclude suppliers", "Value streams continue to evolve over time", "Value streams can involve multiple practices"], "a": 1, "id": 16, "page": 2}, {"q": "The board of directors approves a new digital strategy and instructs management to prioritize investment in cloud infrastructure to support future growth. Which governance activity does this represent?", "o": ["Monitor", "Evaluate", "Direct", "Engage stakeholders"], "a": 2, "id": 17, "page": 2}, {"q": "Which statement regarding a partnership relationship is TRUE?", "o": ["It focuses mainly on operational efficiency and uses standardized contracts", "It focuses on operational and tactical level, not on strategic level", "It provides commercial off-the-shelf services for a wide range of consumers", "It involves bespoke services with a focus on innovation and growth"], "a": 3, "id": 18, "page": 2}, {"q": "Which dimension of product and service management promotes conducting safe-to-fail experiments in complex situations?", "o": ["Organizations and people", "Value streams and processes", "Partners and suppliers", "Information and technology"], "a": 0, "id": 19, "page": 2}, {"q": "Which activity has the purpose of developing, integrating, and testing digital products to transform designs into functional solutions?", "o": ["Support", "Build", "Discover", "Operate"], "a": 1, "id": 20, "page": 2}, {"q": "Which term BEST describes a group of people that has its own functions with responsibilities, authorities, and relationships to achieve its objectives?", "o": ["Organization", "Partnership", "Culture", "Service journey"], "a": 0, "id": 21, "page": 2}, {"q": "Which dimension of digital product and service management ensures whoever is working in an organization has sufficient skills to support anticipated needs?", "o": ["Organizations and people", "Value streams and processes", "Information and technology", "Partners and suppliers"], "a": 0, "id": 22, "page": 2}, {"q": "How should the seven guiding principles be combined when an organization is making a decision?", "o": ["By using all the guiding principles equally when making any decision", "By selecting one guiding principle to follow as the main basis for every decision", "By considering each guiding principle to understand its relevance before applying it", "By using the 'keep it simple and practical' principle and one or two others that are relevant to the specific decision"], "a": 2, "id": 23, "page": 2}, {"q": "Which is the purpose of the 'transition' activity?", "o": ["To seamlessly introduce new products into the operational environment", "To ensure continual alignment of the product roadmap with needs of service consumers", "To create prototypes and specifications for products and services", "To develop, integrate and test digital products"], "a": 0, "id": 24, "page": 2}, {"q": "Performing routine tasks such as backups, monitoring, and capturing and processing events is part of which of the following activities?", "o": ["Deliver", "Support", "Operate", "Transition"], "a": 2, "id": 25, "page": 3}, {"q": "Which of the following is a key success metric for 'Transition' activity?", "o": ["Speed of normal service restoration", "Quality of the resources and services outsourced from suppliers", "Service performance against the agreed SLA targets", "Number and impact of deployment errors"], "a": 3, "id": 26, "page": 3}, {"q": "Why is it important to seek feedback before, during, and after each iteration?", "o": ["To document all activities in detail before starting the next iteration", "To ensure the project plan remains fixed and unchanged throughout development", "To allow the team to follow the original design without interruption", "To ensure that each iteration is aligned with changing circumstances"], "a": 3, "id": 27, "page": 3}, {"q": "What is a value stream?", "o": ["A set of organizational resources and capabilities to achieve an objective", "A series of steps an organization undertakes to enable value for consumers through management of products and services", "A tangible or intangible deliverable of an activity", "A configuration of an organization's resources designed to offer value for a consumer"], "a": 1, "id": 28, "page": 3}, {"q": "Which BEST explains why an organization might choose to engage external suppliers?", "o": ["To maintain greater control and visibility over service delivery", "To minimize reliance on third-party providers", "To remove the need for oversight, governance, and internal management", "To obtain capabilities that are difficult to develop internally"], "a": 3, "id": 29, "page": 3}, {"q": "A healthcare IT provider is planning to launch a new digital appointment system. According to 'Focus on value', what should the organization do first?", "o": ["Understand why patients use the appointment service", "Identify who the service consumers and key stakeholders are", "Analyze how the system will help patients achieve their goals", "Evaluate the risks and financial consequences for the consumers"], "a": 0, "id": 30, "page": 3}, {"q": "What is a product prototype?", "o": ["A request that triggers an agreed service action", "The process of releasing new or updated products to users", "An initial version of a product demonstrating its basic form and functionality", "A finalized product specification approved for development"], "a": 2, "id": 31, "page": 3}, {"q": "An organization is planning to improve the existing service and wants to understand its current performance before making any changes. According to the principle 'Start where you are', what could an organization consider when observing current performance of the service?", "o": ["Involve people who have little or no prior knowledge of the service", "Select the right message and method to communicate with stakeholders", "Identify who the consumers are and why they use the service", "Avoid applying risk management when reusing existing processes"], "a": 2, "id": 32, "page": 3}, {"q": "Which value chain activity is assessed by evaluating the quality of the resources and services sourced from a third party?", "o": ["Build", "Design", "Acquire", "Discover"], "a": 2, "id": 33, "page": 3}, {"q": "A telecom provider designs an enterprise package that combines internet, VoIP, network security and technical support. Which concept does this illustrate?", "o": ["Transfer of goods", "Service action", "Access to resources", "Service offering"], "a": 3, "id": 34, "page": 3}, {"q": "Which of the following activities BEST represents transfer of goods in a service offering?", "o": ["A cloud user accesses shared online storage", "A service provider supplies new laptops to the customer", "A customer receives advice from a helpdesk agent", "A team attends a virtual training session"], "a": 1, "id": 35, "page": 3}, {"q": "Which activity focuses on securing and allocating necessary resources efficiently?", "o": ["Acquire", "Build", "Discover", "Deliver"], "a": 0, "id": 36, "page": 3}, {"q": "Which of the following terms BEST describes a change?", "o": ["An unplanned interruption to a service or reduction in the quality of a service", "The addition, modification or removal of anything that could have an effect on product and service", "Any component that needs to be managed in order to deliver an IT service", "An underlying cause of one or more incidents"], "a": 1, "id": 37, "page": 4}, {"q": "Which is an approach to software development in which software can be released to production at any time after a decision is made by the team?", "o": ["Continuous Deployment", "Continuous Integration", "Continuous Delivery", "DevOps"], "a": 2, "id": 38, "page": 4}, {"q": "Why is project management important in ITIL?", "o": ["To manage routine operational activities and service requests", "To define governance authority across the ITIL Value System", "To deliver time-bound initiatives that introduce new or changed services", "To enable structured delivery of change while services continue to operate"], "a": 2, "id": 39, "page": 4}, {"q": "What is the purpose of the ITIL AI Capability Model?", "o": ["To describe how service providers, service consumers, and other parties interact with AI to co-create value", "To describe how organizations can assess and develop capabilities for effective use of AI", "To prescribe specific AI technologies required for service development and management", "To measure the performance of AI-enabled services against predefined service levels"], "a": 1, "id": 40, "page": 4}, {"q": "Which BEST describes the principle of 'keep it simple and practical'?", "o": ["Solutions should be designed to handle exceptions through rules", "Every product should include as many features as possible to handle all exceptions", "All exceptions must be addressed with unique and detailed processes", "Add as many steps as possible to ensure every exception is fully controlled"], "a": 0, "id": 41, "page": 4}, {"q": "Which is a key success metric for 'Transition' activity?", "o": ["Number and impact of incidents and performance deviations", "Quality of the resources and services sourced from suppliers", "Negative impact of changes on service availability and performance", "Service performance against the agreed SLA targets"], "a": 2, "id": 42, "page": 4}, {"q": "Which of the following is NOT an activity of digital product and service lifecycle?", "o": ["Acquire", "Agree", "Discover", "Build"], "a": 1, "id": 43, "page": 4}, {"q": "Which of the following BEST describes an outcome in a service relationship?", "o": ["A result achieved by a stakeholder through the use of at least one output", "A tangible or intangible deliverable created during a service activity", "A specific task completed by the service provider as part of service delivery", "A software product provided to the consumer by the service provider"], "a": 0, "id": 44, "page": 4}, {"q": "Which of the following is NOT one of the digital product and service lifecycle management activities?", "o": ["Acquire", "Agree", "Discover", "Build"], "a": 1, "id": 45, "page": 4}, {"q": "Which BEST describes service actions?", "o": ["A combination of digital resources that provide consumer value", "Actions enabling value through digital products without transferring ownership", "Actions performed by a service provider or jointly with a consumer", "Consumer's access to a provider's resources according to agreed terms"], "a": 2, "id": 46, "page": 4}, {"q": "Which is NOT one of the four categories of service level metrics?", "o": ["Warranty", "Utility", "Sustainability", "Governance"], "a": 3, "id": 47, "page": 4}, {"q": "Which of the following is an example of a service action?", "o": ["A cloud service provider giving users access to virtual machines", "A user accessing a streaming platform to watch movies", "A software company delivering a hardware security token to the customer", "A digital learning platform conducting a live online training session for users"], "a": 3, "id": 48, "page": 4}, {"q": "What is an error?", "o": ["A reduction in the quality of a service", "An unplanned interruption to a service", "An event causing critical loss", "A flaw or vulnerability in a service"], "a": 3, "id": 49, "page": 5}, {"q": "What BEST describes the concept of utility?", "o": ["The assurance that helps determine whether a service is fit for use", "The functionality offered by a product or service to meet a particular need", "The assurance that product or service will meet agreed requirements", "The functional and emotional interactions with a service and provider as perceived by a stakeholder"], "a": 1, "id": 50, "page": 5}, {"q": "Which type of risk is imposed on consumers by a service?", "o": ["Lack of staff availability in the consumer organization", "The service provider ceasing to operate", "Failure of hardware owned and managed by the consumer", "Requirement for consumer staff training to use the service effectively"], "a": 1, "id": 51, "page": 5}, {"q": "Which dimension of service management is concerned with ensuring that a company's structure supports the fulfilment of strategic goals?", "o": ["Organizations and people", "Value streams and processes", "Partners and suppliers", "Information and technology"], "a": 0, "id": 52, "page": 5}, {"q": "Which is a series of steps that an organization undertakes to enable value for consumers through management of products and services?", "o": ["Product and service lifecycle", "Service journey", "Value stream", "Value stream mapping"], "a": 2, "id": 53, "page": 5}, {"q": "What is the ITIL Value System?", "o": ["A set of organizational capabilities designed for performing work or accomplishing an objective", "A system by which the current and future use of digital technology is governed", "A model representing how all the components and activities of an organization work together to facilitate value creation through digital products and services", "The entire set of activities that create value through the provision of a product or service"], "a": 2, "id": 54, "page": 5}, {"q": "What is the customer of a service responsible for?", "o": ["Using the service", "Defining the service requirements", "Provisioning the service", "Authorizing the budget for the service"], "a": 1, "id": 55, "page": 5}, {"q": "How should an organization apply the ITIL Guiding Principles?", "o": ["Sequentially, according to a fixed order of priority", "As optional suggestions, that can be ignored", "By relying on just one or two principles for efficiency", "By considering the relevance of each principle in each situation"], "a": 3, "id": 56, "page": 5}, {"q": "In the 'partners and suppliers' dimension, what does it mean when organizations form flexible partnerships?", "o": ["They avoid cooperation to maintain complete independence", "They operate strictly through formal contracts with no shared responsibilities", "They rely only on suppliers for technical resources without collaboration", "They share common goals and risks while collaborating to achieve desired outcomes"], "a": 3, "id": 57, "page": 5}, {"q": "Which BEST defines a digital service?", "o": ["A combination of an organization's resources based on digital technology and designed to offer value to consumers", "A means of enabling value for consumers through digital products without ownership transfer", "The adoption and integration of digital technologies into all areas of an organization", "The maintaining and improving the effective, efficient, and convenient use of information"], "a": 0, "id": 58, "page": 5}, {"q": "Which of the following helps to understand the internal state of a complicated system by analyzing its external outputs?", "o": ["Continuous integration", "Continuous delivery", "Observability", "Site Reliability Engineering"], "a": 2, "id": 59, "page": 5}, {"q": "Which dimension of product and service management encourages analyzing and decision-making based on understanding different levels of complexity?", "o": ["Organizations and people", "Partners and suppliers", "Information and technology", "Value streams and processes"], "a": 3, "id": 60, "page": 5}, {"q": "Which BEST describes the 'think and work holistically' ITIL Guiding Principle?", "o": ["Encourage all staff to clearly understand who their customers are", "Ensure that each iteration aligns with the concept of a Minimum Viable Product", "Reduce complexity by focusing on doing fewer things but doing them better", "Identify patterns in interactions between system elements to anticipate needs"], "a": 3, "id": 61, "page": 6}, {"q": "What is the PRIMARY focus of the 'start where you are' ITIL Guiding Principle?", "o": ["Reduce complexity by focusing on doing fewer things, but doing them better", "Ensure that each iteration aligns with the concept of a Minimum Viable Product", "Assessing the existing resources before making decisions", "Encourage all staff to clearly understand who their customers are"], "a": 2, "id": 62, "page": 6}, {"q": "What is the MAIN purpose of collecting feedback during digital product development?", "o": ["To record the final project results after completion", "To limit information sharing to senior management to avoid confusion", "To ensure that improvement efforts stay aligned with changing priorities", "To reduce stakeholder involvement to minimize complexity"], "a": 2, "id": 63, "page": 6}, {"q": "Why are management practices important in digital product and service management?", "o": ["They define the purpose of the organization", "They replace the need for value streams", "They provide resources and capabilities to accomplish objectives", "They influence the financial outcome of the organization"], "a": 2, "id": 64, "page": 6}, {"q": "Which of the following is an example of access to resources?", "o": ["An employee attends a training session delivered by an instructor", "A technician performs on-site installation of equipment", "A supplier delivers new laptops to the customer's office", "A user is granted permission to use a cloud-based application"], "a": 3, "id": 65, "page": 6}, {"q": "What is a service request?", "o": ["A flaw or vulnerability in a product or system", "A user-initiated action that triggers an agreed service", "A cause of one or more service incidents", "A change of state significant for management"], "a": 1, "id": 66, "page": 6}, {"q": "What does the 'partners and suppliers' chapter of an ITIL Official Practice Guide provide?", "o": ["Dependencies on third parties", "Capability levels, criteria, and recommendations for self-assessment", "Purpose and description of the practice", "Key information, automation, and tooling for a practice"], "a": 1, "id": 67, "page": 6}, {"q": "When applying the 'collaborate and promote visibility' principle to an organization's initiative, which is NOT a necessary action?", "o": ["Ensuring everyone involved in the initiative agrees about it before initiating", "Making decisions about the initiative on visible data", "Considering different methods of communication for the different audiences", "Communicating information about the initiative to other parts of the organization"], "a": 0, "id": 68, "page": 6}, {"q": "Which lifecycle management activity is responsible for resolving incidents?", "o": ["Support", "Design", "Operate", "Transition"], "a": 0, "id": 69, "page": 6}, {"q": "What is Site Reliability Engineering (SRE)?", "o": ["Regularly merging code into a shared repository", "Applying a strategy to avoid sudden unplanned events that might cause organizational damage", "Evaluating how reliable a product is against its specifications", "Applying software engineering to infrastructure and operations problems"], "a": 3, "id": 70, "page": 6}, {"q": "Which dimension of product and service management focuses on implementing a system of rules, policies, and standards to manage data assets?", "o": ["Partners and suppliers", "Organizations and people", "Information and technology", "Value streams and processes"], "a": 2, "id": 71, "page": 6}, {"q": "How can continual improvement of value streams be achieved?", "o": ["By eliminating external dependencies altogether", "By creating new value streams for every product or service", "By improving the management practices that support and enable value streams", "By directly controlling variability in workflows"], "a": 2, "id": 72, "page": 6}, {"q": "How do ITIL Guiding Principles and continual improvement affect governance activities within the ITIL Value System (VS)?", "o": ["They are optional elements that organizations may choose to ignore without impacting governance", "They provide a framework for defining governance principles and ensure ongoing improvement aligns with stakeholder expectations", "They focus exclusively on financial performance and do not relate to governance oversight", "They apply only to management practices and do not influence governance activities"], "a": 1, "id": 73, "page": 7}, {"q": "Who is responsible for the procurement and use of services?", "o": ["Service provider", "Digital product vendor", "Service consumer", "Sponsor"], "a": 2, "id": 74, "page": 7}, {"q": "The purpose of the 'Build' activity is to:", "o": ["Align service offerings with organizational strategy", "Develop and integrate functional solutions", "Resolve incidents and ensure disaster recovery", "Provide services and manage user experience"], "a": 1, "id": 75, "page": 7}, {"q": "Which statement regarding the relationship between management practices and value chain activities is CORRECT?", "o": ["Each value chain activity is supported and enabled by several management practices", "Each management practice supports one value chain activity", "Management practices replace the need for value chain activities", "Value chain activities and management practices operate independently of each other"], "a": 0, "id": 76, "page": 7}, {"q": "Which statement about a basic relationship is TRUE?", "o": ["It operates across operational, tactical, and strategic organizational levels", "It typically involves out-of-the-box services offered to customers", "Services are usually customized to meet the needs of customers", "It focuses on innovation and business growth"], "a": 1, "id": 77, "page": 7}, {"q": "After assessing its current customer service performance, a telecom company sets a target to reduce average call times from 10 minutes to 3 minutes within six months. Which continual improvement step are they performing?", "o": ["Take action", "Where do we want to be?", "What is the vision?", "Where are we now?"], "a": 1, "id": 78, "page": 7}];
+let order = QUESTIONS.map((_,i)=>i);
+let pos = 0;
+let selected = new Map();
+let score = 0;
+let answered = new Set();
+
+function render(){
+  if(pos >= order.length) return renderSummary();
+  const q = QUESTIONS[order[pos]];
+  document.getElementById('counter').textContent = `Question ${pos+1} of ${order.length}`;
+  document.getElementById('progress').style.width = `${((pos+1)/order.length)*100}%`;
+  const picked = selected.get(q.id);
+  let html = `<div class="card">
+    <div class="meta">Question ${q.id} · Source PDF page ${q.page} of 7</div>
+    <div class="question">${escapeHtml(q.q)}</div>
+    <div id="options">`;
+  q.o.forEach((opt,i)=>{
+    let cls = "";
+    if(picked !== undefined) {
+      if(i === q.a) cls = "correct";
+      else if(i === picked) cls = "wrong";
+    }
+    html += `<button class="option ${cls}" data-i="${i}" ${picked!==undefined?'disabled':''}>
+      <span class="letter">${String.fromCharCode(65+i)}.</span>${escapeHtml(opt)}
+    </button>`;
+  });
+  html += `</div>`;
+  if(picked !== undefined){
+    const good = picked === q.a;
+    html += `<div class="feedback ${good?'good':'bad'}">
+      ${good ? "Correct." : "Not quite."} The source PDF marks <b>${String.fromCharCode(65+q.a)}</b> as the correct answer.
+    </div>`;
+  }
+  html += `<div class="controls">
+      <button class="control" id="prevBtn" ${pos===0?'disabled':''}>Previous</button>
+      <button class="control primary" id="nextBtn">${pos===order.length-1?'Finish':'Next'}</button>
+    </div></div>`;
+  document.getElementById('quiz').innerHTML = html;
+
+  document.querySelectorAll('.option').forEach(btn=>btn.addEventListener('click',()=>answer(Number(btn.dataset.i))));
+  document.getElementById('prevBtn').onclick = ()=>{ if(pos>0){pos--;render();} };
+  document.getElementById('nextBtn').onclick = ()=>{ if(pos<order.length-1){pos++;render();} else renderSummary(); };
+  renderNav();
+}
+
+function answer(i){
+  const q = QUESTIONS[order[pos]];
+  if(selected.has(q.id)) return;
+  selected.set(q.id,i);
+  answered.add(q.id);
+  if(i===q.a) score++;
+  render();
+}
+
+function renderSummary(){
+  document.getElementById('counter').textContent = "Complete";
+  document.getElementById('progress').style.width = "100%";
+  const pct = Math.round(score/order.length*100);
+  document.getElementById('quiz').innerHTML = `<div class="card summary">
+    <div class="meta">ITIL V5 Foundation · 78 questions</div>
+    <h2>Quiz complete</h2>
+    <div class="score">${score} / ${order.length}</div>
+    <div class="small">${pct}% correct</div>
+    <div class="controls">
+      <button class="control" onclick="reviewWrong()">Review incorrect</button>
+      <button class="control primary" onclick="restart()">Restart quiz</button>
+    </div>
+  </div>`;
+  document.getElementById('navigator').style.display='none';
+}
+
+function reviewWrong(){
+  const wrong = order.filter(i=>selected.get(QUESTIONS[i].id)!==QUESTIONS[i].a);
+  if(!wrong.length){alert("No incorrect answers — excellent!");return;}
+  order = wrong;
+  pos=0;
+  render();
+}
+
+function restart(){
+  order = QUESTIONS.map((_,i)=>i);
+  pos=0; selected.clear(); answered.clear(); score=0;
+  render();
+}
+
+function shuffle(){
+  for(let i=order.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[order[i],order[j]]=[order[j],order[i]];}
+  pos=0;
+  render();
+}
+
+function renderNav(){
+  const nav = document.getElementById('navigator');
+  if(nav.style.display==='none') return;
+  nav.innerHTML = order.map((idx,i)=>{
+    const q=QUESTIONS[idx];
+    const cls = `${i===pos?'current ':''}${selected.has(q.id)?'done':''}`;
+    return `<button class="${cls}" onclick="pos=${i};render()">${i+1}</button>`;
+  }).join('');
+}
+
+function escapeHtml(s){
+  return s.replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+document.getElementById('shuffleBtn').onclick = shuffle;
+document.getElementById('restartBtn').onclick = restart;
+document.getElementById('navBtn').onclick = ()=>{
+  const n=document.getElementById('navigator');
+  n.style.display=n.style.display==='none'?'grid':'none';
+  renderNav();
+};
+render();
+</script>
+</body>
+</html>
